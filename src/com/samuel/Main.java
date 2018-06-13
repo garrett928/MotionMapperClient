@@ -35,7 +35,6 @@ public class Main extends HvlTemplateInteg2D{
 		 
 		String userHomeFolder = System.getProperty("user.home")+"/Documents"; 
 		File profile = new File(userHomeFolder, fileName+".txt");  
-		File loader = new File(userHomeFolder, fileName+"Loader.BOND");//creates new txt file with inputed name
 		BufferedWriter output = null;
 		
 		try {
@@ -67,7 +66,7 @@ public class Main extends HvlTemplateInteg2D{
 	public void initialize() {
 		getTextureLoader().loadResource("osfont");
 		gameFont =  new HvlFontPainter2D(getTexture(0), HvlFontPainter2D.Preset.FP_INOFFICIAL,.5f,8f,0); //font definition
-
+		
 		mouseX = Mouse.getX();
 		mouseY = Mouse.getY();
 		drawTimer = 50;
@@ -105,7 +104,6 @@ public class Main extends HvlTemplateInteg2D{
 							lines.get((int)i).setDistance(HvlMath.distance(lines.get((int)i).end, lines.get((int)i+1).end));
 						}
 						pointY = HvlMath.map(lines.get((int)i).end.x, lines.get((int) i).start.x, lines.get((int) i).end.x, lines.get((int) i).start.y, lines.get((int) i).end.y);
-						
 						Point point = new Point(lines.get((int)i).end.x, pointY);
 						points.add(point);
 					}
@@ -114,6 +112,11 @@ public class Main extends HvlTemplateInteg2D{
 					save(file);
 					generatedPath = true;
 				}
+				if(lines.size() > 0) {
+					HvlPainter2D.hvlDrawQuadc(lines.get(0).start.x, lines.get(0).start.y, 10, 10, Color.orange);
+
+				}
+
 				for(Point pointWave : points) {
 					pointWave.draw(delta);
 				}
