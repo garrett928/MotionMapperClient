@@ -15,7 +15,7 @@ public class Point {
 		this.yPos = yArg;
 	}
 	public void draw(float delta) {
-		HvlPainter2D.hvlDrawQuadc(this.xPos, this.yPos, 10, 10, Color.blue);
+		HvlPainter2D.hvlDrawQuadc(this.xPos, this.yPos, 5, 5, Color.blue);
 	}
 	public void setOrig(float origArg) {
 		this.origAngle = origArg;

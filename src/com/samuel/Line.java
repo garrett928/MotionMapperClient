@@ -9,6 +9,7 @@ public class Line {
 	public HvlCoord2D start;
 	public HvlCoord2D end;
 	public float distance;
+	public float angle;
 
 	public Line(HvlCoord2D startPt, HvlCoord2D endPt) {
 		this.start = startPt;
@@ -19,5 +20,8 @@ public class Line {
 	}
 	public void setDistance(float disArg) {
 		this.distance = disArg;
+	}
+	public void setAngle(float angleArg) {
+		this.angle = angleArg;
 	}
 }

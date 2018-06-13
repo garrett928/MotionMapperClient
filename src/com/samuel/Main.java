@@ -72,7 +72,7 @@ public class Main extends HvlTemplateInteg2D{
 		
 		mouseX = Mouse.getX();
 		mouseY = Mouse.getY();
-		drawTimer = 50;
+		drawTimer = 100;
 		generatedPath = false;
 		file = "";
 		lines = new ArrayList<Line>();
@@ -81,7 +81,7 @@ public class Main extends HvlTemplateInteg2D{
 			public void draw(float delta) {
 				mouseX = Mouse.getX();
 				mouseY = -Mouse.getY() + Display.getHeight();
-				drawTimer-=delta * 750;
+				drawTimer-=delta * 200;
 				gameFont.drawWordc("Name your \n file and then \n press \nL _ SHIFT \n \n To start \n over, press \n 9", 650, 100, Color.white, 0.35f);
 				HvlPainter2D.hvlDrawQuad(520, 0, 200, 680, new Color(130, 130, 130, 0.3f));
 				if(drawTimer <=0 && Mouse.isButtonDown(0) && Mouse.getX() < 520) {
@@ -112,7 +112,21 @@ public class Main extends HvlTemplateInteg2D{
 						Point point = new Point(lines.get((int)i).end.x, pointY);
 						points.add(point);						
 					}
-					for(int i = 0; i < points.size())
+					for(int i = 0; i < points.size(); i++) {
+						if(i > 0) {
+							xOffsetBet = points.get(i).xPos - points.get(i-1).xPos;
+							yOffsetBet = points.get(i).yPos - points.get(i-1).yPos;
+							//System.out.println(points.get(1).xPos);
+							//System.out.println(points.get(0).xPos);
+
+							origAngle =  Math.round(Math.toDegrees(Math.atan2(yOffsetBet, xOffsetBet)));
+							points.get(i).setOrig(origAngle);
+							angleOff = origAngle-points.get(i-1).origAngle;
+							points.get(i).setAngle(angleOff);
+							System.out.println(angleOff);
+						}
+					
+					}
 					file = UI.getChildOfType(HvlArrangerBox.class, 0).getFirstOfType(HvlTextBox.class).getText(); //gets text box input; saves as variable
 
 					save(file);
