@@ -41,7 +41,7 @@ public class Main extends HvlTemplateInteg2D{
 			
 			output = new BufferedWriter(new FileWriter(profile));  
 			for(int i = 1; i < points.size(); i++) {
-				output.write("Distance: "+lines.get(i).distance);
+				output.write(Float.toString(lines.get(i).distance)+" "+Float.toString(points.get(i).angleOff));
 				output.newLine();
 			}
 		
@@ -57,7 +57,10 @@ public class Main extends HvlTemplateInteg2D{
 	float pointY;
 	boolean generatedPath;
 	static HvlFontPainter2D gameFont;
-
+	float xOffsetBet;
+	float yOffsetBet;
+	float origAngle;
+	float angleOff;
 	ArrayList<Line> lines;
 	ArrayList<Point> points;
 	HvlMenu UI;
@@ -79,7 +82,7 @@ public class Main extends HvlTemplateInteg2D{
 				mouseX = Mouse.getX();
 				mouseY = -Mouse.getY() + Display.getHeight();
 				drawTimer-=delta * 750;
-				gameFont.drawWordc("Name your \n file and then \n press \nL _ SHIFT", 650, 100, Color.white, 0.35f);
+				gameFont.drawWordc("Name your \n file and then \n press \nL _ SHIFT \n \n To start \n over, press \n 9", 650, 100, Color.white, 0.35f);
 				HvlPainter2D.hvlDrawQuad(520, 0, 200, 680, new Color(130, 130, 130, 0.3f));
 				if(drawTimer <=0 && Mouse.isButtonDown(0) && Mouse.getX() < 520) {
 					if(lines.size() == 0) {
@@ -102,11 +105,14 @@ public class Main extends HvlTemplateInteg2D{
 						if(lines.size() > 1 && i < lines.size()-1) {
 							
 							lines.get((int)i).setDistance(HvlMath.distance(lines.get((int)i).end, lines.get((int)i+1).end));
+	
 						}
+						
 						pointY = HvlMath.map(lines.get((int)i).end.x, lines.get((int) i).start.x, lines.get((int) i).end.x, lines.get((int) i).start.y, lines.get((int) i).end.y);
 						Point point = new Point(lines.get((int)i).end.x, pointY);
-						points.add(point);
+						points.add(point);						
 					}
+					for(int i = 0; i < points.size())
 					file = UI.getChildOfType(HvlArrangerBox.class, 0).getFirstOfType(HvlTextBox.class).getText(); //gets text box input; saves as variable
 
 					save(file);
@@ -114,9 +120,13 @@ public class Main extends HvlTemplateInteg2D{
 				}
 				if(lines.size() > 0) {
 					HvlPainter2D.hvlDrawQuadc(lines.get(0).start.x, lines.get(0).start.y, 10, 10, Color.orange);
-
 				}
-
+				if(Keyboard.isKeyDown(Keyboard.KEY_9)) {
+					UI.getChildOfType(HvlArrangerBox.class, 0).getFirstOfType(HvlTextBox.class).setText("");
+					lines.clear();
+					points.clear();
+					generatedPath = false;
+				}
 				for(Point pointWave : points) {
 					pointWave.draw(delta);
 				}
