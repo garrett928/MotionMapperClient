@@ -16,7 +16,7 @@ public class Line {
 		this.end = endPt;
 	}
 	public void draw(float delta) {
-		HvlPainter2D.hvlDrawLine(this.start.x, this.start.y, this.end.x, this.end.y, Color.white);
+		HvlPainter2D.hvlDrawLine(this.start.x, this.start.y, this.end.x, this.end.y, Color.black);
 	}
 	public void setDistance(float disArg) {
 		this.distance = disArg;

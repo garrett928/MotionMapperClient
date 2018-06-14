@@ -28,7 +28,7 @@ public class Main extends HvlTemplateInteg2D{
 		new Main();
 	}
 	public Main(){
-		super(60, 720, 680, "Motion Mapper", new HvlDisplayModeDefault());
+		super(60, 720, 720, "Motion Mapper", new HvlDisplayModeDefault());
 	}
 	public void save(String fileName) {
 		fileName = UI.getChildOfType(HvlArrangerBox.class, 0).getFirstOfType(HvlTextBox.class).getText(); //gets text box input; saves as variable
@@ -68,6 +68,7 @@ public class Main extends HvlTemplateInteg2D{
 	@Override
 	public void initialize() {
 		getTextureLoader().loadResource("osfont");
+		getTextureLoader().loadResource("grid");
 		gameFont =  new HvlFontPainter2D(getTexture(0), HvlFontPainter2D.Preset.FP_INOFFICIAL,.5f,8f,0); //font definition
 		
 		mouseX = Mouse.getX();
@@ -79,11 +80,15 @@ public class Main extends HvlTemplateInteg2D{
 		points = new ArrayList<Point>();
 		UI = new HvlMenu() {
 			public void draw(float delta) {
+				HvlPainter2D.hvlDrawQuad(0, 0, 4096, 2160, Color.white);
+
+				HvlPainter2D.hvlDrawQuad(0, 0, 4096, 2160, getTexture(1));
 				mouseX = Mouse.getX();
 				mouseY = -Mouse.getY() + Display.getHeight();
 				drawTimer-=delta * 700;
-				gameFont.drawWordc("Name your \n file and then \n press \nL _ SHIFT \n \n To start \n over, press \n 9", 650, 100, Color.white, 0.35f);
-				HvlPainter2D.hvlDrawQuad(520, 0, 200, 680, new Color(130, 130, 130, 0.3f));
+				HvlPainter2D.hvlDrawQuad(520, 0, 200, 680, new Color(130, 130, 130, 1f));
+
+				gameFont.drawWordc("Name your \n file and then \n press \nL _ SHIFT \n \n To start \n over, press \n 9", 650, 100, Color.black, 0.35f);
 				if(drawTimer <=0 && Mouse.isButtonDown(0) && Mouse.getX() < 520) {
 					if(lines.size() == 0) {
 						Line line = new Line(new HvlCoord2D(mouseX, mouseY), new HvlCoord2D(mouseX, mouseY));
