@@ -81,7 +81,7 @@ public class Main extends HvlTemplateInteg2D{
 			public void draw(float delta) {
 				mouseX = Mouse.getX();
 				mouseY = -Mouse.getY() + Display.getHeight();
-				drawTimer-=delta * 200;
+				drawTimer-=delta * 700;
 				gameFont.drawWordc("Name your \n file and then \n press \nL _ SHIFT \n \n To start \n over, press \n 9", 650, 100, Color.white, 0.35f);
 				HvlPainter2D.hvlDrawQuad(520, 0, 200, 680, new Color(130, 130, 130, 0.3f));
 				if(drawTimer <=0 && Mouse.isButtonDown(0) && Mouse.getX() < 520) {
@@ -109,21 +109,42 @@ public class Main extends HvlTemplateInteg2D{
 						}
 						
 						pointY = HvlMath.map(lines.get((int)i).end.x, lines.get((int) i).start.x, lines.get((int) i).end.x, lines.get((int) i).start.y, lines.get((int) i).end.y);
-						Point point = new Point(lines.get((int)i).end.x, pointY);
-						points.add(point);						
+						
+						if(i > 0) {
+							Point point = new Point(lines.get((int)i).end.x, pointY);
+							
+							points.add(point);
+							//System.out.println(points.get((int)i-1).xPos);
+						}
+											
 					}
 					for(int i = 0; i < points.size(); i++) {
 						if(i > 0) {
 							xOffsetBet = points.get(i).xPos - points.get(i-1).xPos;
 							yOffsetBet = points.get(i).yPos - points.get(i-1).yPos;
-							//System.out.println(points.get(1).xPos);
-							//System.out.println(points.get(0).xPos);
-
-							origAngle =  Math.round(Math.toDegrees(Math.atan2(yOffsetBet, xOffsetBet)));
+					
+							if(i==1) {
+								angleOff = Math.round(Math.toDegrees(Math.atan2(points.get(1).yPos - lines.get(0).start.y, points.get(1).xPos - lines.get(0).start.x)));
+							}
+							if(i>1) {
+								origAngle =  Math.round(Math.toDegrees(Math.atan2(yOffsetBet, xOffsetBet)));
+								if(i == 2) {
+									angleOff = (origAngle-points.get(i-1).angleOff);
+								}
+								if(i > 2) {
+									angleOff = (origAngle-points.get(i-1).origAngle);
+								}
+							}
+							if(angleOff > 180) {
+								angleOff -= 360;
+							}
+							if(angleOff < -180) {
+								angleOff += 360;
+							}
 							points.get(i).setOrig(origAngle);
-							angleOff = origAngle-points.get(i-1).origAngle;
 							points.get(i).setAngle(angleOff);
-							System.out.println(angleOff);
+							System.out.println(i + ": "+ angleOff+", "+origAngle);
+							
 						}
 					
 					}
